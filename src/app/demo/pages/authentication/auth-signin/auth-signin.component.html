@@ -1,0 +1,48 @@
+<div class="auth-wrapper">
+
+   <!-- <div class="col-md-2">
+          <img class="img-radius" id="logo_1" src="assets/images/user/Logo026.jpeg" alt="User-Profile-Image" >
+   </div> -->
+
+    <!-- <div class="col-md-2">
+          <img class="img-radius" id="logo_2" src="assets/images/user/logo026_2.jpeg" alt="User-Profile-Image" >
+   </div> -->
+      
+  <div class="auth-content" >
+    <div class="card">
+        <div class="col-md-12">
+          <div class="row align-items-center text-center">
+          <div class="card-body">
+
+            <form (ngSubmit)="login(f)" #f="ngForm" class="form-horizontal form-material">
+
+              <h2 class="mb-3 f-w-400" id="titulo"><strong>SISPARWEB</strong> </h2>
+              <h4 class="mb-3 f-w-400" id="titulo" ><strong>LOGIN</strong></h4>
+             
+              <span *ngIf="f.submitted && f.controls['email'].errors" class="text-danger  fadeIn" ><strong>{{avisoMessage}}</strong></span>
+              <div class="form-group mb-3">
+                <input type="email" id="email" name="email" [(ngModel)]="usuario.email" class="form-control" required placeholder="Email"
+                    style="background-color: beige">
+                  <!-- <input type="email" id="email" class="form-control" placeholder="Email" [(ngModel)]="form.email" name="email" /> -->
+              </div>
+
+              <span  class="text-danger  fadeIn" ><strong>{{atencionMessage}}</strong></span>
+              <div class="form-group mb-4">
+                <input type="password" id="password" name="password" [(ngModel)]="usuario.password" class="form-control" placeholder="Contraseña"
+                style="background-color: beige">
+              </div>
+              <div class="custom-control custom-checkbox text-left mb-4 mt-2">
+                <input type="checkbox" class="custom-control-input" id="customCheck1">
+              </div>
+              <button type="submit" class="btn btn-block btn-primary mb-4">
+                  <i class="feather icon-unlock"> </i><strong> Iniciar Sesión</strong></button>
+              
+              <span  class="text-danger  fadeIn" ><strong>{{errorMessage}}</strong></span>
+            </form>
+        
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

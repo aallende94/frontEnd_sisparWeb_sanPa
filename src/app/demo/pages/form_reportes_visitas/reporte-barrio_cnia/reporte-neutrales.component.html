@@ -1,0 +1,110 @@
+<div id="overlay">
+    <div class="spinner"></div>
+    <br/>
+    Loading...
+</div>
+
+
+<div *ngFor="let venta of ventas" class="mb-4">
+  <h5 class="bg-info p-2">
+    Cliente: {{ venta.nombre_cliente }} - Factura Venta: #{{ venta.id_venta }} - Fecha Venta: {{ venta.fecha_venta }}
+  </h5>
+
+    <td>
+    <span class="badge" [ngClass]="{
+      'bg-warning': venta.tipo_venta_texto === 'Credito'
+      }">
+        {{ venta.tipo_venta_texto }}
+      </span>
+      <span class="badge" [ngClass]="{
+        'bg-info': venta.estado_venta === 'Activa'
+      }">
+        {{ venta.estado_venta }}
+      </span>
+  </td>
+
+  <table class="table table-striped table-bordered">
+    <thead class="table-dark">
+      <tr>
+        <th  class="text-center">Descripción Producto</th>
+        <th class="text-center">Cant.</th>
+        <th class="text-center">Precio Unit.</th>
+        <th class="text-center">SubTotal</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr *ngFor="let d of venta.detalles">
+        <td>{{ d.descripcion_producto }}</td>
+        <td class="text-center">{{ d.cantidad }}</td>
+        <td class="text-right">{{ d.precio_unitario_format }}</td>
+        <td class="text-right">{{ d.precio_sub_total_format }}</td>
+      </tr>
+    </tbody>
+  </table>
+
+  <div class="mb-2">
+    <strong>TOTAL VENTA:</strong> {{ venta.total_venta_formateado }}
+  </div>
+
+  <div class="col-md-12" *ngIf="CREDITO">
+        <div >
+            <ngb-accordion>
+                <ngb-panel >
+                    <ng-template ngbPanelTitle style="padding: 0px; margin: 0px;"  >
+                    <h5 class="card-title" style="text-align: left; color: inherit;">DETALLE DE CRÉDITO </h5>
+                    </ng-template>
+
+                    <ng-template ngbPanelContent>
+                          <div row="row" >
+                              <div class="col-md-12">
+                                  <h3 class="box-title" style="text-align: center; font-size: 15px;font-weight: bold;">Detalles de Cuotas</h3>
+                              </div>
+                              <div class="col-md-12">
+                                  <div class="table-responsive">
+                                      <table class="table table-sm">
+                                         <thead class="table-secondary">
+                                            <tr>
+                                              <th>Tipo</th>
+                                              <th class="text-center">N° Cuota</th>
+                                              <th>Importe</th>
+                                              <th class="text-center">Vencimiento</th>
+                                              <th>Estado</th>
+                                              <th>Método Pago</th>
+                                            </tr>
+                                          </thead>
+                                          <tbody>
+                                            <tr *ngFor="let cuota of venta.cuotas" [ngClass]="{
+                                              'table-success': cuota.estado_pago_cuota === 'Pagado',
+                                              'table-warning': cuota.estado_pago_cuota === 'Pendiente' && !isVencida(cuota.vencimiento_cuota),
+                                              'table-danger': cuota.estado_pago_cuota === 'Pendiente' && isVencida(cuota.vencimiento_cuota)
+                                            }">
+                                              <td >{{ cuota.tipo_cuota }}</td>
+                                              <td class="text-center">{{ cuota.numero_cuota }}</td>
+                                              <td class="text-right">{{ cuota.importe_cuota_formateado}}</td>
+                                              <td class="text-center">{{ cuota.vencimiento_cuota }}</td>
+                                              <td>{{ cuota.estado_pago_cuota }}</td>
+                                              <td>{{ cuota.metodo_pago_cuota }}</td>
+                                            </tr>
+                                          </tbody>
+                                      </table>
+
+                                      <div class="text-end">
+                                        <small>
+                                          <strong>
+                                            Cuotas pagadas: {{ venta.cuotas_pagadas }} -
+                                            Pendientes: {{ venta.cuotas_pendientes }} -
+                                            Total cuotas: {{ venta.total_cuotas | number:'1.0-0' }}
+                                          </strong>
+                                        </small>
+                                      </div>
+
+                                  </div>
+                              </div>
+                          </div>
+                    </ng-template>
+                </ngb-panel>
+            </ngb-accordion>
+        </div>
+  </div>
+</div>
+

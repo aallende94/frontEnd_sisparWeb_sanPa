@@ -1,0 +1,173 @@
+<div id="overlay">
+    <div class="spinner"></div>
+    <br/>
+    Loading...
+</div>
+
+   <div class="row">
+        <div class="col-sm-12">
+            <br> <br>
+            <h1 >SISPARWEB - SISTEMA DE PARTICIPACIÓN WEB</h1>
+            <app-card  [options]="false">
+            
+                <div class="page-wrapper"id="contenDiv" >
+                      <div class="container-fluid">
+                         <div class="row page-titles">
+                            <div class="col-md-12 col-8 align-self-center">
+                                <h3 class="text-themecolor m-b-0 m-t-0">Dashboard de Participación</h3>
+                                <ol class="breadcrumb">
+                                    <li class="breadcrumb-item"><a href="javascript:void(0)">Home</a></li>
+                                    <li class="breadcrumb-item active">Dashboard</li>
+                                </ol>
+                            </div>
+                        </div>
+                         <!-- Start Page Content -->
+                        
+                        <div class="row">
+
+                             <!-- Column -->
+                                <div class="col-md-3 col-lg-3 col-xlg-3">
+                                    <div class="card card-inverse card-info">
+                                        <div class="box bg-success text-center">
+                                            <h1 class="font-light text-white">{{countPadron}}</h1>
+                                            <h6 class="text-white">Todos</h6>
+                                        </div>
+                                    </div>
+                                </div>
+                               
+                                <!-- Column -->
+                                <div class="col-md-3 col-lg-3 col-xlg-3">
+                                    <div class="card card-inverse card-info">
+                                        <div class="box bg-primary text-center">
+                                            <h1 class="font-light text-white">{{countEmit}}</h1>
+                                            <h6 class="text-white">Emitidos</h6>
+                                        </div>
+                                    </div>
+                                </div>
+                                <!-- Column -->
+                                <div class="col-md-3 col-lg-3 col-xlg-3">
+                                    <div class="card card-primary card-inverse">
+                                        <div class="box bg-info text-center">
+                                            <h1 class="font-light text-white">{{countPend}}</h1>
+                                            <h6 class="text-white">Pendientes</h6>
+                                        </div>
+                                    </div>
+                                </div>
+                                
+                                <!-- Column -->
+                                <div class="col-md-3 col-lg-3 col-xlg-3">
+                                    <div class="card card-inverse card-warning">
+                                        <div class="box bg-warning text-center">
+                                            <h1 class="font-light text-white">{{porcEmit}} %</h1>
+                                            <h6 class="text-white">Porcentaje Emitidos</h6>
+                                        </div>
+                                    </div>
+                                </div>
+                            
+                        </div>
+
+                         <!-- Row -->
+                        <div class="row">
+                            <!-- Column -->
+                            <div class="col-lg-6 col-md-6">
+                                <div class="card">
+                                    <div class="card-body">
+                                        <h3 class="card-title">Análisis de Resultados</h3>
+                                        <!-- <div id="m-piechart" style="width:100%; height:278px"></div> -->
+                                        <div id="m-piechart" style="width:100%; height:278px"></div>
+                                        <div class="text-center">
+                                            <ul class="list-inline m-t-20">
+                                                <li class="list-inline-item">
+                                                    <h6 class="text-muted"><i class="fa fa-circle m-r-5 text-primary"></i>Emitidos</h6> 
+                                                </li>
+                                                <li class="list-inline-item">
+                                                    <h6 class="text-muted"><i class="fa fa-circle m-r-5 text-info"></i>Pendientes</h6> 
+                                                </li>
+                                                <!-- <li class="list-inline-item">
+                                                    <h6 class="text-muted"><i class="fa fa-circle m-r-5 text-danger"></i>Nulos</h6> 
+                                                </li> -->
+                                              
+                                            </ul>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <!-- Column -->
+                            <div class="col-lg-6 col-md-6">
+                                 <div class="card">
+                                    <div class="card-body">
+                                        <ul class="product-review">
+                                             <li>
+                                                <span class="text-muted display-5"><i class="mdi mdi-emoticon-neutral"></i></span> 
+                                                <div class="dl m-l-10">
+                                                    <h3 class="card-title">Todos</h3>
+                                                    <h6 class="card-subtitle">{{countPadron}} Votantes</h6> 
+                                                </div>
+                                                <div class="progress">
+                                                    <div class="progress-bar bg-success" 
+                                                        role="progressbar" 
+                                                         [style.width.%]="porcPadr" 
+                                                        [attr.aria-valuenow]="porcPadr" 
+                                                        aria-valuemin="0" 
+                                                        aria-valuemax="100"> 
+                                                       
+                                                    </div>
+                                                </div>
+                                            </li>
+                                            <li>
+                                                <span class="text-muted display-5"><i class="mdi mdi-emoticon-cool"></i></span> 
+                                                <div class="dl m-l-10">
+                                                    <h3 class="card-title">Votos Emitidos</h3>
+                                                    <h6 class="card-subtitle">{{countEmit}} Votos</h6> 
+                                                </div>
+                                                <div class="progress">
+                                                    <div class="progress-bar bg-primary" 
+                                                            role="progressbar" 
+                                                            [style.width.%]="porcEmit" 
+                                                            [attr.aria-valuenow]="porcEmit"  
+                                                            aria-valuemin="0" 
+                                                            aria-valuemax="100">
+                                                    </div>
+                                                </div>
+                                            </li>
+                                            <li>
+                                                <span class="text-muted display-5"><i class="mdi mdi-emoticon-sad"></i></span> 
+                                                <div class="dl m-l-10">
+                                                    <h3 class="card-title">Votos Pendientes</h3>
+                                                    <h6 class="card-subtitle">{{countPend}} Votos</h6> 
+                                                </div>
+                                                <div class="progress">
+                                                    <div class="progress-bar bg-info" 
+                                                                role="progressbar" 
+                                                                 [style.width.%]="porcPend" 
+                                                                [attr.aria-valuenow]="porcPend" 
+                                                                aria-valuemin="0" 
+                                                                aria-valuemax="100">
+                                                        </div>
+                                                </div>
+                                            </li>
+                                           
+                                        </ul>
+                                    </div>
+                                </div>
+
+                                <!-- <div class="card">
+                                    <div class="card-body">
+                                         <img class="img-fluid" id="logo_1" src="assets/images/user/logo026_2.jpeg" alt="User-Profile-Image" >
+                                    </div>
+                                </div> -->
+               
+                            </div>
+                        </div>
+               
+                      </div>
+                </div>
+                    <footer class="footer text-center"> © {{currentYear}} SISPARWEB Autor: Lic. Aldo Allende - Todos los derechos reservados 
+                    </footer>
+            </app-card>
+        </div>
+    </div>
+    
+       
+   
+

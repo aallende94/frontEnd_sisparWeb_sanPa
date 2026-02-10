@@ -1,0 +1,290 @@
+<div id="overlay">
+    <div class="spinner"></div>
+    <br/>
+    Loading...
+</div>
+
+<div class="row">
+  <div class="col-sm-12">
+    
+    <br> <br>
+    <h1 >SISPARWEB - SISTEMA DE PARTICIPACIÓN WEB</h1>
+
+    <app-card  [options]="false">
+      <div>
+          <div class="alert alert-success alert-dismissable" id="successmessage" *ngIf="mostrarMensaje_true">
+                     <button type="button" class="close" data-dismiss="alert" aria-hidden="true">&times;</button>
+                        <div id="scsbody">
+                            <p *ngIf="mostrarMensaje_true">
+                                <br>
+                                <span style="font-weight: bold; font-size: 18px">{{ mensaje }}</span>
+                            </p>
+                        </div>
+                </div>
+
+             <div class="alert alert-danger alert-dismissable" id="dangermessage" *ngIf="mostrarMensaje_err" >
+                     <button type="button" class="close" data-dismiss="alert" aria-hidden="true">&times;</button>
+                        <div id="scsbody">
+                            <p *ngIf="mostrarMensaje_err">
+                                <br>
+                                <span style="font-weight: bold; font-size: 18px">{{ mensaje_error }}</span>
+                            </p>
+                        </div>
+                </div>
+
+      </div>
+     
+          <form  #clienteForm="ngForm">
+
+             <div class="col-md-12">
+                      <h4 class="box-title" style="text-transform: uppercase;font-weight: bold; color: rgb(105, 103, 100);">
+                        Consulta de Datos
+                      </h4>
+              </div>
+
+            <div class="row" id="contenDiv">
+
+              <div class="col-md-2 mb-3" style="text-align: center;"> 
+                <label for="ruc" class="form-label" >NRO ORDEN</label>
+                <input type="text" id="ci" class="form-control form-control-sm" name="orden_votante" [(ngModel)]="orden_votante" style="text-align: center;"
+                 (change)="onNroOrden($event.target.value);"  />
+              </div>
+
+               <div class="col-md-2 form-group" style="margin-top: 15px;" >
+                  <button type="button" class="btn btn-info btn-block btn-sm" (click)="open(searchProduct, btnVisitados, 'lg', 'searchPrdo')"  >
+                              <i class="feather icon-search"></i><br> NOMBRE/APELLIDO</button>
+              </div>
+
+              <div class="col-md-8"></div>
+
+               <div class="col-md-2 mb-3" style="text-align: center;"> 
+                <label for="ruc" class="form-label" >CI</label>
+                <input type="text" id="ci" class="form-control form-control-sm" name="ci_votante" [(ngModel)]="ci_votante" style="text-align: center;"
+                 (change)="onCiVotante($event.target.value);"  />
+              </div>
+              
+              <div class="col-md-5 mb-3">
+                <label for="nombre" class="form-label">NOMBRE</label>
+                <input type="text" id="nombre" class="form-control form-control-sm" name="nombre_votante" [(ngModel)]="nombre_votante"
+                    style="background-color: beige;" [disabled]="true"/>
+              </div>
+              
+              <div class="col-md-5 mb-3">
+                <label for="apellido" class="form-label">APELLIDO</label>
+                <input type="text" id="apellido" class="form-control form-control-sm" name="apellido_votante" [(ngModel)]="apellido_votante"
+                style="background-color: beige;" [disabled]="true"/>
+              </div>
+              
+              <div class="col-md-2 mb-3">
+                <label for="sexo" class="form-label">SEXO</label>
+                <select id="sexo" class="form-control form-control-sm" name="sexo_votante" [(ngModel)]="sexo_votante"
+                style="background-color: beige;" [disabled]="true">
+                  <option value="" disabled selected>Seleccione</option>
+                  <option value="M">M</option>
+                  <option value="F">F</option>
+                </select>
+              </div>
+              
+              <div class="col-md-6 mb-3">
+                <label for="direccion" class="form-label">DIRECCION</label>
+                <input type="text" id="direccion" class="form-control form-control-sm" name="direccion_votante" [(ngModel)]="direccion_votante"
+                style="background-color: beige;" />
+              </div>
+
+              <!-- <div class="col-md-3 mb-3">
+                <label for="telefono" class="form-label">Teléfono</label>
+                <input type="tel" id="telefono" class="form-control form-control-sm" name="telefono_votante" [(ngModel)]="telefono_votante" />
+              </div> -->
+              
+            </div>
+
+             <div class="col-md-12">
+                      <h4 class="box-title" style="text-transform: uppercase;font-weight: bold; color: rgb(105, 103, 100);">
+                        Datos Electorales
+                      </h4>
+              </div>
+            
+            <div class="row" id="contenDiv">
+              <div class="col-md-3 mb-3">
+                <label for="depar" class="form-label">DEPARTAMENTO</label>
+                <select id="sexo" class="form-control form-control-sm" name="depar_votante" [(ngModel)]="depar_votante"
+                style="background-color: beige;" [disabled]="true">
+                
+                  <option value="8">MISIONES</option>
+                </select>
+              </div>
+              
+              <div class="col-md-3 mb-3">
+                <label for="distrito" class="form-label">DISTRITO</label>
+                 <select id="sexo" class="form-control form-control-sm" name="distrito_votante" [(ngModel)]="distrito_votante"
+                     style="background-color: beige;" [disabled]="true">
+
+                  <option value="7">SAN PATRICIO</option>
+                </select>
+              </div>
+              
+              <!-- <div class="col-md-3 mb-3">
+                <label for="seccional" class="form-label">Seccional</label>
+                <input type="text" id="seccional" class="form-control form-control-sm" name="seccional_votante" [(ngModel)]="seccional_votante" />
+              </div> -->
+
+              <div class="col-md-6 mb-3"></div>
+              
+              <div class="col-md-4 mb-3">
+                <label for="local" class="form-label">LOCAL</label>
+                
+                <select id="sexo" class="form-control form-control-sm" name="local_votante" [(ngModel)]="local_votante"
+                     style="background-color: beige;" [disabled]="true">
+                    <option value="" disabled selected>Seleccione</option>
+                    <option value="1">COL.NAC.DE SAN PATRICIO</option>
+                    <option value="2">ESC.GDA.391 AREA 4</option>
+                </select>
+              </div>
+
+              <div class="col-md-3 mb-3">
+                <label for="local" class="form-label">MESA</label>
+                <input type="text" id="mesa" class="form-control form-control-sm" name="mesa_votante" [(ngModel)]="mesa_votante" 
+                style="background-color: beige;" />
+              </div>
+              
+              <div class="col-md-3 mb-3">
+                <label for="local" class="form-label">ORDEN</label>
+                <input type="text" id="orden" class="form-control form-control-sm" name="orden_votante" [(ngModel)]="orden_votante"
+                style="background-color: beige;" />
+              </div>
+
+                <div class="col-md-2 mb-3"></div>
+
+            </div>
+
+            <div class="col-md-12">
+                      <h4 class="box-title" style="text-transform: uppercase;font-weight: bold; color: rgb(105, 103, 100);">
+                        Datos de Participación (confidencial)
+                      </h4>
+              </div>
+             <div class="row" id="contenDiv">
+                
+              <div class="col-md-2 mb-3">
+                <label for="telefono" class="form-label">VOTO</label>
+                <select class="form-control form-control-sm" id="voto_votante" name="voto_votante" [(ngModel)]="voto_votante" #cod_voto_cli>
+                  <option [value]="0" >NO</option>  
+                  <option [value]="1" >SI</option>
+                </select>
+              </div>
+
+              <div class="col-md-2 mb-3">
+                <label for="telefono" class="form-label">TIPO</label>
+                <select class="form-control form-control-sm" id="medioP_votante" name="medioP_votante" [(ngModel)]="medioP_votante" #cod_voto_cli>
+                  <option [value]="0" >PASAJE</option>  
+                  <option [value]="1" >GASTOS VARIOS</option>
+                </select>
+              </div>
+
+              <div class="col-md-2 mb-3">
+                <label for="local" class="form-label">MONTO</label>
+                <input type="text" id="monto" class="form-control form-control-sm text-right " name="monto_votante" [(ngModel)]="monto_votante"
+                (input)="NumberMiles($event.target.value, 'montoVot')" style="font-weight: bold" [disabled]="disableOpe"
+                   onkeypress="return ((event.charCode >= 48 && event.charCode <= 57) || (event.charCode >= 65 && event.charCode <= 90) || (event.charCode >= 97 && event.charCode <= 122))"
+                  />
+              </div>
+
+             </div>
+
+              <div class="col-md-6">
+                 <div class="form-group row">
+                        <div class="col-md-12"> 
+                            <button *ngIf="REGISTRAR" type="button" title="Guardar Votante" class="btn btn-primary btn-ms" id="btnGuardar" (click)="insVotante()"
+                                  style="margin-right: 5px; margin-top: 5px; font-weight: bold" [disabled]="!clienteForm.form.valid">  
+                                    <i class="feather icon-save"></i> REGISTRAR
+                            </button> 
+                            
+                            <!-- <button *ngIf="ACTUALIZAR" title="Actualizar Votante" class="btn btn-success btn-ms " id="btnProcesar"  (click)="updVotante()"
+                                style="margin-right: 5px; margin-top: 5px; font-weight: bold"  > 
+                                        <i class="feather icon-refresh-cw"></i> ACTUALIZAR
+                            </button> -->
+                        </div>
+                 </div> 
+              </div>
+         
+           
+          </form>
+            <footer class="footer text-center"> © {{currentYear}} SISPARWEB Autor: Lic. Aldo Allende - Todos los derechos reservados 
+            </footer>
+    </app-card>
+  </div>
+
+</div>
+
+  <ng-template #searchProduct let-modal>
+        <div class="modal-header">
+        <h5 class="modal-title" id="modal-basic-title">B&uacute;squeda de Votantes</h5>
+        <button type="button" class="close" aria-label="Close" (click)="modal.dismiss('Cross click')">
+            <span aria-hidden="true">×</span>
+        </button>
+        </div>
+        <div class="modal-body">
+        <div class="row">
+    
+            <div class="col-md-12">
+                <strong>Seleccione haciendo doble click sobre registro deseado.</strong>
+            </div>
+               
+                <div class="col-md-12 form-group">
+                    <div class="input-group" style="padding: 5px;">
+                    
+                        <div class="input-group-prepend" style="height: 40px;" >
+                            <span class="btn btn-primary" id="inputGroupPrepend" (click)="onBuscarVisitadoNameLast()" title="Buscar Votante" > 
+                                <i class="feather icon-search"></i>
+                            </span>
+                        </div>
+                    
+                        <input type="text" class="form-control" id="searchPrdo" (change)="onBuscarVisitadoNameLast();"  placeholder="NOMBRE Y APELLIDO" autofocus style="text-transform: uppercase;" >
+                    
+                        <div class="invalid-feedback">
+                        Please choose a username.
+                        </div>
+                    </div>
+                    <p id="error_sinDatosName" class="text text-danger" style="text-align: center;"></p>
+                </div>       
+           
+            <div class="table-responsive" style="overflow-y: scroll;height: 250px;">
+                <table width="100%"  class="table table-xs table-hover" style="width: 100%;">
+                    <thead>
+                    <th style="text-align: center;">CI</th>
+                    <th style="text-align: center;">NOMBRE</th>
+                    <th style="text-align: center;">APELLIDO</th>
+                    <th style="text-align: center;">sexo</th>
+                    </thead>
+                    
+                    <tbody *ngIf="VOTANTES">
+                        <tr *ngFor="let i of listVotantes; index as e" 
+                          (dblclick)="selectVotantes(i.vot_ci, i.vot_nombre, i.vot_apellido, i.vot_sexo,
+                                                       i.vot_direccion, i.vot_dpto, i.vot_dist, i.vot_local,
+                                                      i.vot_mesa, i.vot_orden, i.vot_confirma_voto, i.vot_medio_pago,
+                                                      i.vot_monto )">
+
+                          <td style="text-align: center;" >{{ i.vot_ci }}</td>
+                          <td>{{ i.vot_nombre }}</td>
+                          <td>{{ i.vot_apellido }}</td>
+                          <td style="text-align: center;">{{ i.vot_sexo }}</td>
+                        </tr>
+                    </tbody>
+
+                    <tbody *ngIf="PADRON">
+                        <tr *ngFor="let i of listPadron; index as e" 
+                          (dblclick)="selectPadron(i.CEDULA, i.NOMBRE, i.APELLIDO, i.SEXO, i.DEPART, i.DISTRITO, i.LOCAL  )">
+
+                          <td >{{ i.CEDULA }}</td>
+                          <td>{{ i.NOMBRE }}</td>
+                          <td>{{ i.APELLIDO }}</td>
+                          <td>{{ i.SEXO }}</td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+        </div>
+        <div class="modal-footer">
+        <!-- <button type="button" class="btn btn-primary" (click)="modal.close('Save click')">Guardar</button> -->
+        </div>
+    </ng-template>

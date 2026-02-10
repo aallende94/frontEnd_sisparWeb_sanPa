@@ -1,0 +1,338 @@
+<div id="overlay">
+    <div class="spinner"></div>
+    <br/>
+    Loading...
+</div>
+
+<div class="row">
+  <div class="col-sm-12">
+    
+    <br> <br>
+    <h1 >SISPARWEB - SISTEMA DE PARTICIPACIÓN WEB</h1>
+
+    <app-card  [options]="false">
+      <div>
+          <div class="alert alert-success alert-dismissable" id="successmessage" *ngIf="mostrarMensaje_true">
+                     <button type="button" class="close" data-dismiss="alert" aria-hidden="true">&times;</button>
+                        <div id="scsbody">
+                            <p *ngIf="mostrarMensaje_true">
+                                <br>
+                                <span style="font-weight: bold; font-size: 18px">{{ mensaje }}</span>
+                            </p>
+                        </div>
+                </div>
+
+             <div class="alert alert-danger alert-dismissable" id="dangermessage" *ngIf="mostrarMensaje_err" >
+                     <button type="button" class="close" data-dismiss="alert" aria-hidden="true">&times;</button>
+                        <div id="scsbody">
+                            <p *ngIf="mostrarMensaje_err">
+                                <br>
+                                <span style="font-weight: bold; font-size: 18px">{{ mensaje_error }}</span>
+                            </p>
+                        </div>
+                </div>
+
+      </div>
+     
+          <form  #clienteForm="ngForm">
+
+             <div class="col-md-12">
+                      <h4 class="box-title" style="text-transform: uppercase;font-weight: bold; color: rgb(105, 103, 100);">
+                        Registro de Operadores
+                      </h4>
+              </div>
+
+            <div class="row" id="contenDiv">
+
+               <div class="col-md-2 form-group" style="margin-top: 15px;" >
+                  <button type="button" class="btn btn-info btn-block btn-sm" (click)="open(searchProduct, btnVisitados, 'lg', 'searchPrdo')"  >
+                              <i class="feather icon-search"></i><br> NOMBRE/APELLIDO</button>
+              </div>
+
+               <div class="col-md-10 mb-3"></div>
+            
+              <div class="col-md-2 mb-3" style="text-align: center;">
+                <label for="ruc" class="form-label font-weight-bold">CI</label>
+                <input type="text" id="ci" class="form-control form-control-sm" name="ci_visita" [(ngModel)]="ci_visita"
+                     (change)="onCiVisita($event.target.value);" style="font-size: 14px; font-weight: bold; text-align: center;" />
+              </div>
+              
+              <div class="col-md-4 mb-3">
+                <label for="nombre" class="form-label font-weight-bold">NOMBRE</label>
+                <input type="text" id="nombre" class="form-control form-control-sm" name="nombre_visita" [(ngModel)]="nombre_visita"
+                    style="background-color: beige;" />
+              </div>
+              
+              <div class="col-md-4 mb-3">
+                <label for="apellido" class="form-label">APELLIDO</label>
+                <input type="text" id="apellido" class="form-control form-control-sm" name="apellido_visita" [(ngModel)]="apellido_visita"
+                style="background-color: beige;" />
+              </div>
+               
+              <div class="col-md-3 mb-3">
+                <label for="sexo" class="form-label font-weight-bold">SEXO</label>
+                <select id="sexo" class="form-control form-control-sm" name="sexo_visita" [(ngModel)]="sexo_visita" #sexo_vis
+                style="background-color: beige;" >
+                  <option value="M">MASCULINO</option>
+                  <option value="F">FEMENINO</option>
+                </select>
+              </div>
+
+              <div class="col-md-2 form-group" hidden="true">
+                  <label class="form-label font-weight-bold" style="text-transform: uppercase;">FECHA NACIMIENTO</label>
+                  <input type="date"  class="form-control form-control-sm" name="fechaNac_visita" id="fechaNac_visita" [(ngModel)]="fechaNac_visita" 
+                  placeholder="FECHA NAC" >
+              </div>
+
+              <!-- <div class="col-md-3 mb-3">
+                <label for="telefono" class="form-label font-weight-bold">ESTADO CIVIL</label>
+                 <select id="sexo" class="form-control form-control-sm" name="estadoCivil_visita" [(ngModel)]="estadoCivil_visita" #estadoCivil_vis
+                     style="background-color: beige;" >
+                  <option value="" disabled selected>Seleccione</option>
+                  <option value="1">SOLTERO</option>
+                  <option value="2">CASADO</option>
+                  <option value="3">VIUDO</option>
+                </select>
+              </div> -->
+
+              <div class="col-md-3 mb-3">
+                  <label for="telefono" class="form-label font-weight-bold">TELÉFONO</label>
+                  <input type="tel" id="telefono" class="form-control form-control-sm" name="telefono_visita" [(ngModel)]="telefono_visita"
+                  style="background-color: beige;"  />
+              </div>
+
+              <div class="col-md-3 mb-3">
+                <label class="form-label font-weight-bold">BARRIO/COMPAÑIA</label>
+                <select id="sexo" class="form-control form-control-sm" name="barrio_visita" [(ngModel)]="barrio_visita" #barrio_vis
+                      style="background-color: beige; text-transform: uppercase;" >
+                    <option value="1">La Esperanza</option>
+                    <option value="2">Tres Reyes</option>
+                    <option value="3">Virgen de los Dolores</option>
+                    <option value="4">Sagrada Familia</option>
+                    <option value="5">Pura Limpia Concepción</option>
+                    <option value="6">Isla Timbo</option>
+                    <option value="7">Santo Ángel</option>
+                    <option value="8">Concepción</option>
+                    <option value="9">Potrerito Yvate</option>
+                </select>
+              </div>
+              
+              <div class="col-md-6 mb-3">
+                <label for="direccion" class="form-label font-weight-bold">DIRECCION</label>
+                <input type="text" id="direccion" class="form-control form-control-sm" name="direccion_visita" [(ngModel)]="direccion_visita"
+                style="background-color: beige;" />
+              </div>
+
+             
+            </div>
+
+             <!-- <div class="col-md-12">
+                      <h4 class="box-title" style="text-transform: uppercase;font-weight: bold; color: rgb(105, 103, 100);">
+                        Datos Electorales
+                      </h4>
+              </div> -->
+            
+            <!-- <div class="row" id="contenDiv">
+              <div class="col-md-3 mb-3">
+                <label for="depar" class="form-label">DEPARTAMENTO</label>
+                <input type="text" id="depar" class="form-control form-control-sm" name="depar_visita" [(ngModel)]="depar_visita"
+                style="background-color: beige;" />
+              </div>
+              
+              <div class="col-md-3 mb-3">
+                <label for="distrito" class="form-label">DISTRITO</label>
+                <input type="text" id="distrito" class="form-control form-control-sm" name="distrito_visita" [(ngModel)]="distrito_visita"
+                style="background-color: beige;" />
+              </div>
+            
+              
+              <div class="col-md-6 mb-3">
+                <label for="local" class="form-label">LOCAL</label>
+                <input type="text" id="local" class="form-control form-control-sm" name="local_visita" [(ngModel)]="local_visita" 
+                style="background-color: beige;" />
+              </div>
+
+              <div class="col-md-3 mb-3">
+                <label for="local" class="form-label">MESA</label>
+                <input type="text" id="mesa" class="form-control form-control-sm" name="mesa_visita" [(ngModel)]="mesa_visita" 
+                style="background-color: beige;" />
+              </div>
+              
+              <div class="col-md-3 mb-3">
+                <label for="local" class="form-label">ORDEN</label>
+                <input type="text" id="orden" class="form-control form-control-sm" name="orden_visita" [(ngModel)]="orden_visita"
+                style="background-color: beige;" />
+              </div>
+
+            </div> -->
+
+            <div class="col-md-12">
+                      <h4 class="box-title" style="text-transform: uppercase;font-weight: bold; color: rgb(105, 103, 100);">
+                        Datos de la Visita
+                      </h4>
+              </div>
+             <div class="row" id="contenDiv">
+                
+              <div class="col-md-2 mb-3">
+                  <label for="telefono" class="form-label">CONFIRMAR VISITA</label>
+                  <select class="form-control form-control-sm" id="confirmar_visita" name="confirmar_visita" [(ngModel)]="confirmar_visita" #confir_vis>
+                    <option [value]="0" >NO</option>  
+                    <option [value]="1" >SI</option>
+                  </select>
+              </div>
+
+              
+              <div class="col-md-2 mb-3">
+                <label for="telefono" class="form-label">VOLVER A VISITAR</label>
+                <select class="form-control form-control-sm" id="volver_visita" name="volver_visita" [(ngModel)]="volver_visita" #volver_vis>
+                  <option [value]="0" >NO</option>  
+                  <option [value]="1" >SI</option>
+                </select>
+              </div>
+
+               <div class="col-md-2 mb-3">
+                <label for="telefono" class="form-label">DISCAPACIDAD</label>
+                <select class="form-control form-control-sm" id="discap_visita" name="discap_visita" [(ngModel)]="discap_visita" #discap_vis>
+                  <option [value]="0" >NO</option>  
+                  <option [value]="1" >SI</option>
+                </select>
+              </div>
+               
+              <div class="col-md-2 mb-3">
+                <label for="telefono" class="form-label">PASAJE</label>
+                <select class="form-control form-control-sm" id="pasaje_visita" name="pasaje_visita" [(ngModel)]="pasaje_visita" #pasaje_vis>
+                  <option [value]="0" >NO</option>  
+                  <option [value]="1" >SI</option>
+                </select>
+              </div>
+
+              <div class="col-md-2 mb-3">
+                <label for="telefono" class="form-label">INTENSIÓN DE VOTO</label>
+                <select class="form-control form-control-sm" id="intension_voto_visita" name="intension_voto_visita" [(ngModel)]="intension_voto_visita" #intension_voto_vis>
+                  <option [value]="1" >POSITIVO</option>  
+                  <option [value]="2" >NEGATIVO</option>
+                  <option [value]="3" >NEUTRAL</option>
+                </select>
+              </div>
+              
+              <div class="ol-md-3 mb-3" style="text-align: center;" *ngIf="VIS_FECHA">
+                   <label>FECHA VISITA</label>
+                   <input type="date" class="form-control form-control-sm" name="f_visita" id="f_visita" [(ngModel)]="f_visita"
+                       style="text-align: center; background-color: beige;" >
+               </div>
+
+               <div class="ol-md-3 mb-3" style="text-align: center;" *ngIf="VIS_HORA">
+                   <label>HORA VISITA</label>
+                   <input type="text" class="form-control form-control-sm" name="f_hora" id="f_hora" [(ngModel)]="f_hora"
+                       style="text-align: center; background-color: beige;" >
+               </div>
+
+                <div class="col-md-12 mb-3">
+                    <label for="comentario" class="form-label">COMENTARIO VISITA</label> 
+                    <textarea id="comentario" class="form-control form-control-sm" rows="3" #coment_vis placeholder="Agregar algún comentario de la visita..."
+                        style="text-transform: uppercase;" >
+                    </textarea> 
+                  
+                </div>
+
+
+             </div>
+
+              <div class="col-md-6">
+                 <div class="form-group row">
+                        <div class="col-md-12"> 
+                            <button *ngIf="REGISTRAR" type="button" title="Guardar Visita" class="btn btn-primary btn-ms" id="btnGuardar" (click)="saveVisita()"
+                                  style="margin-right: 5px; margin-top: 5px; font-weight: bold" >  
+                                    <i class="feather icon-save"></i> REGISTRAR
+                            </button> 
+                            
+                            <button *ngIf="ACTUALIZAR" title="Actualizar Visita" class="btn btn-success btn-ms " id="btnProcesar"  (click)="updVisita()"
+                                style="margin-right: 5px; margin-top: 5px; font-weight: bold"  > 
+                                        <i class="feather icon-refresh-cw"></i> ACTUALIZAR
+                            </button>
+                        </div>
+                 </div> 
+              </div>
+         
+           
+          </form>
+            <footer class="footer text-center"> © {{currentYear}} SISPARWEB Autor: Lic. Aldo Allende - Todos los derechos reservados 
+            </footer>
+    </app-card>
+  </div>
+
+</div>
+
+  <ng-template #searchProduct let-modal>
+        <div class="modal-header">
+        <h5 class="modal-title" id="modal-basic-title">B&uacute;squeda de Visitados</h5>
+        <button type="button" class="close" aria-label="Close" (click)="modal.dismiss('Cross click')">
+            <span aria-hidden="true">×</span>
+        </button>
+        </div>
+        <div class="modal-body">
+        <div class="row">
+    
+            <div class="col-md-12">
+                <strong>Seleccione haciendo doble click sobre registro deseado.</strong>
+            </div>
+               
+                <div class="col-md-12 form-group">
+                    <div class="input-group" style="padding: 5px;">
+                    
+                        <div class="input-group-prepend" style="height: 40px;" >
+                            <span class="btn btn-primary" id="inputGroupPrepend" (click)="onBuscarVisitadoNameLast()" title="Buscar Visitado" > 
+                                <i class="feather icon-search"></i>
+                            </span>
+                        </div>
+                    
+                        <input type="text" class="form-control" id="searchPrdo" (change)="onBuscarVisitadoNameLast();"  placeholder="NOMBRE Y APELLIDO" autofocus style="text-transform: uppercase;" >
+                    
+                        <div class="invalid-feedback">
+                        Please choose a username.
+                        </div>
+                    </div>
+                    <p id="error_sinDatosName" class="text text-danger" style="text-align: center;"></p>
+                </div>       
+           
+            <div class="table-responsive" style="overflow-y: scroll;height: 250px;">
+                <table width="100%"  class="table table-xs table-hover" style="width: 100%;">
+                    <thead>
+                    <th style="text-align: center;">CI</th>
+                    <th style="text-align: center;">NOMBRE</th>
+                    <th style="text-align: center;">APELLIDO</th>
+                    <th style="text-align: center;">sexo</th>
+                    </thead>
+                    
+                    <tbody *ngIf="VISITADOS">
+                        <tr *ngFor="let i of listVisitados; index as e" 
+                          (dblclick)="selectVisitados(i.vis_ci, i.vis_nombre, i.vis_apellido, i.vis_sexo,
+                                                      i.vis_telefono, i.vis_brrio_cnia, i.vis_direccion, 
+                                                      i.vis_nro_casa, i.vis_confirmar, i.vis_volver,
+                                                      i.vis_fecha, i.vis_hora, i.vis_comentario )">
+
+                          <td style="text-align: center;" >{{ i.vis_ci }}</td>
+                          <td>{{ i.vis_nombre }}</td>
+                          <td>{{ i.vis_apellido }}</td>
+                          <td style="text-align: center;">{{ i.vis_sexo }}</td>
+                        </tr>
+                    </tbody>
+
+                    <tbody *ngIf="PADRON">
+                        <tr *ngFor="let i of listPadron; index as e" 
+                          (dblclick)="selectPadron(i.CEDULA, i.NOMBRE, i.APELLIDO, i.SEXO, i.FEC_NAC )">
+
+                          <td >{{ i.CEDULA }}</td>
+                          <td>{{ i.NOMBRE }}</td>
+                          <td>{{ i.APELLIDO }}</td>
+                          <td>{{ i.SEXO }}</td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+        </div>
+        <div class="modal-footer">
+        <!-- <button type="button" class="btn btn-primary" (click)="modal.close('Save click')">Guardar</button> -->
+        </div>
+    </ng-template>
