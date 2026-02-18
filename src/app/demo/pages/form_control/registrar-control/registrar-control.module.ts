@@ -1,6 +1,8 @@
 import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { HttpClientModule } from "@angular/common/http";
+import { NgSelectModule } from '@ng-select/ng-select'
+
 
 import { RegistrarControlRoutingModule } from './registrar-control-routing.module';
 import { RegistrarControlComponent } from './registrar-control.component';
@@ -13,7 +15,8 @@ import {NgbDropdownModule} from '@ng-bootstrap/ng-bootstrap';
     RegistrarControlRoutingModule,
     SharedModule,
     NgbDropdownModule,
-    HttpClientModule
+    HttpClientModule,
+    NgSelectModule
   ],
   declarations: [RegistrarControlComponent]
 })

@@ -19,7 +19,7 @@ export class ControlListService {
 
    getParticDataToNameLast(dataSend: any){
     
-    let dir = 'controlList/dataVotanteToNameLast'; 
+    let dir = 'controlList/dataPartiToNameLast'; 
     return this.http.post(this.config.url+dir, dataSend)
   }
 

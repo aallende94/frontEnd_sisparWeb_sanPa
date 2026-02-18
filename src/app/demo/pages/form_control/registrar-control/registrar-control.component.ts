@@ -6,8 +6,8 @@ import { HttpClient, HttpHeaders } from '@angular/common/http';
 //import { TokenService } from '../../../services/token.service';
 import { CommonModule } from '@angular/common';
 import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
+import {NgSelectModule, NgOption} from '@ng-select/ng-select';
 
-import { ParticipanteService } from '../../../services/participantes.service';
 import { ControlListService } from '../../../services/controlList.service';
 
 @Component({
@@ -28,6 +28,7 @@ export class RegistrarControlComponent implements OnInit {
 
  
     nombre_consejal    : string = '';
+    cod_preCandidato   : any;
     
     ci_votante        : string = '';
     nombre_votante    : string = '';
@@ -53,8 +54,9 @@ export class RegistrarControlComponent implements OnInit {
 
    REGISTRAR  : boolean = true
    ACTUALIZAR : boolean = false
-   FVILLALBA  : boolean = true
-   CCRISTALDO : boolean = false
+   PRECANDIDATO_1  : boolean = true
+   PRECANDIDATO_2 : boolean = false
+   PADRON : boolean = false;
    VIS_HORA   : boolean = false
 
   currentYear : number = new Date().getFullYear();
@@ -64,11 +66,17 @@ export class RegistrarControlComponent implements OnInit {
   btnDis           : boolean = true;
   closeResult      : string = '';
 
-   listFvillalba  : any;
-   listCcristaldo : any;
-
+   listPreCand_1  : any;
+   listPreCand_2  : any;
+   listPadron  : any;
+   
    disableOpe  : boolean = false;
    estado : number
+
+    arrayPreCandidatos   : any[] = [];
+   selecPreCandidatos: any; 
+   preCandidatos : string;
+   codPreCandidatoSelec: number | null = null;
 
   ngOnInit(): void {
 
@@ -100,44 +108,86 @@ export class RegistrarControlComponent implements OnInit {
             data => {
             let result: any = data;
 
-           //console.log(result);
+             console.log(result);
 
-            let list_fvillalba = result.list_fvillalba;
-            let list_ccristaldo   = result.list_ccristaldo;
-            let nombre_consejal   = result.consejal;
+             if (!result.SD) {
 
-            if (list_fvillalba) {
+            let list_preCandid_1 = result.info_precandidato_1;
+            let list_preCandid_2   = result.info_precandidato_2;
+            let list_padron        = result.dataPadron;
+            let arr_preCandidatos = result.arrPreCandidatos;   // todos los precandidatos
+            let preCandidato = result.preCandidato;            // puede ser número o array
+          
+            this.condicionPreCandidatos(arr_preCandidatos, preCandidato);
+
+            if (list_preCandid_1) {
+              this.estado = 1
+            }else if(list_preCandid_2){
+              this.estado = 2
+            }else if(list_padron){
+                this.estado = 3
+            }
+
+              switch (this.estado) {
+                case 1:
+
+                (document.querySelector<HTMLInputElement>('#error_sinDatosName')).innerHTML = '';
+                  this.PRECANDIDATO_1 = true
+                  this.PRECANDIDATO_2 = false
+                  this.PADRON = false
+                  this.listPreCand_1 = list_preCandid_1
+    
+                  this.VIS_HORA            = true;
+                  this.mostrarMensaje_err  = false
+                  this.ACTUALIZAR          = false
+                  this.REGISTRAR           = true
+                  
+                  break;
+
+                case 2:
+
+                 (document.querySelector<HTMLInputElement>('#error_sinDatosName')).innerHTML = '';
+                  this.PRECANDIDATO_1 = false
+                  this.PRECANDIDATO_2 = true
+                  this.PADRON = false
+                  this.listPreCand_2 = list_preCandid_2
+    
+                  this.VIS_HORA            = false;
+                  this.mostrarMensaje_err  = false
+                  this.ACTUALIZAR          = false
+                  this.REGISTRAR           = true
+                  
+                  break;
+
+                  case 3:
+
+                     (document.querySelector<HTMLInputElement>('#error_sinDatosName')).innerHTML = '';
+                      this.PRECANDIDATO_1 = false
+                      this.PRECANDIDATO_2 = false
+                      this.PADRON = true
+                      this.listPadron = list_padron;
+                      
+                      this.VIS_HORA            = false;
+                      this.mostrarMensaje_err  = false
+                      this.ACTUALIZAR          = false
+                      this.REGISTRAR           = true
+                 
+                  break;
               
-              (document.querySelector<HTMLInputElement>('#error_sinDatosName')).innerHTML = '';
-              this.FVILLALBA = true
-              this.CCRISTALDO = false
-              this.listFvillalba = list_fvillalba
-              this.nombre_consejal = nombre_consejal
-
-               this.VIS_HORA            = true;
-              this.mostrarMensaje_err  = false
-              this.ACTUALIZAR          = false
-              this.REGISTRAR           = true
-
-            }else if(list_ccristaldo){
-
-              (document.querySelector<HTMLInputElement>('#error_sinDatosName')).innerHTML = '';
-              this.FVILLALBA = false
-              this.CCRISTALDO = true
-              this.listCcristaldo = list_ccristaldo
-              this.nombre_consejal = nombre_consejal
-
-               this.VIS_HORA            = false;
-              this.mostrarMensaje_err  = false
-              this.ACTUALIZAR          = false
-              this.REGISTRAR           = true
-
-            }else{
+                default:
+                  break;
+              }
+              
+             }else{
 
               (document.querySelector<HTMLInputElement>('#error_sinDatosName')).innerHTML = 'No se ha encontrado Nombre y Apellido!!';
-              this.listFvillalba = [];
-               this.listCcristaldo = [];
-            }
+                this.listPreCand_1 = [];
+                this.listPreCand_2 = [];
+                this.listPadron = [];
+
+             }
+
+           
            
         });
 
@@ -210,23 +260,23 @@ export class RegistrarControlComponent implements OnInit {
   //         let result: any = data;
   //         console.log(result);
 
-  //         let list_fvillalba = result.list_fvillalba;
-  //         let list_ccristaldo   = result.list_ccristaldo;
+  //         let list_preCandid_1 = result.list_preCandid_1;
+  //         let list_preCandid_2   = result.list_ccristaldo;
   //         let nombre_consejal   = result.consejal;
 
-  //         if (list_fvillalba) {
+  //         if (list_preCandid_1) {
 
   //           this.nombre_consejal = nombre_consejal
 
-  //          this.ci_votante        = list_fvillalba[0].CEDULA;
-  //           this.nombre_votante   = list_fvillalba[0].NOMBRE;
-  //           this.apellido_votante = list_fvillalba[0].APELLIDO;
-  //           this.sexo_votante     = list_fvillalba[0].SEXO;
+  //          this.ci_votante        = list_preCandid_1[0].CEDULA;
+  //           this.nombre_votante   = list_preCandid_1[0].NOMBRE;
+  //           this.apellido_votante = list_preCandid_1[0].APELLIDO;
+  //           this.sexo_votante     = list_preCandid_1[0].SEXO;
   //           this.direccion_votante = '';
 
-  //           this.depar_votante     = list_fvillalba[0].DEPART;
-  //           this.distrito_votante  = list_fvillalba[0].DISTRITO;
-  //           this.local_votante     = list_fvillalba[0].LOCAL;
+  //           this.depar_votante     = list_preCandid_1[0].DEPART;
+  //           this.distrito_votante  = list_preCandid_1[0].DISTRITO;
+  //           this.local_votante     = list_preCandid_1[0].LOCAL;
   //           this.mesa_votante      = '';
   //           this.orden_votante     = '';
   //           this.voto_votante      = '1';
@@ -237,19 +287,19 @@ export class RegistrarControlComponent implements OnInit {
   //           this.ACTUALIZAR = false
   //           this.REGISTRAR = true
   
-  //         }else if(list_ccristaldo){
+  //         }else if(list_preCandid_2){
 
   //           this.nombre_consejal = nombre_consejal
 
-  //           this.ci_votante        = list_ccristaldo[0].CEDULA;
-  //           this.nombre_votante   = list_ccristaldo[0].NOMBRE;
-  //           this.apellido_votante = list_ccristaldo[0].APELLIDO;
-  //           this.sexo_votante     = list_ccristaldo[0].SEXO;
+  //           this.ci_votante        = list_preCandid_2[0].CEDULA;
+  //           this.nombre_votante   = list_preCandid_2[0].NOMBRE;
+  //           this.apellido_votante = list_preCandid_2[0].APELLIDO;
+  //           this.sexo_votante     = list_preCandid_2[0].SEXO;
   //           this.direccion_votante = '';
 
-  //           this.depar_votante     = list_ccristaldo[0].DEPART;
-  //           this.distrito_votante  = list_ccristaldo[0].DISTRITO;
-  //           this.local_votante     = list_ccristaldo[0].LOCAL;
+  //           this.depar_votante     = list_preCandid_2[0].DEPART;
+  //           this.distrito_votante  = list_preCandid_2[0].DISTRITO;
+  //           this.local_votante     = list_preCandid_2[0].LOCAL;
   //           this.mesa_votante      = '';
   //           this.orden_votante     = '';
   //           this.voto_votante      = '1';
@@ -309,109 +359,122 @@ export class RegistrarControlComponent implements OnInit {
           let result: any = data;
           console.log(result);
 
-          let list_fvillalba = result.list_fvillalba;
-          let list_ccristaldo   = result.list_ccristaldo;
-          let list_padron   = result.dataPadron;
-          let nombre_consejal   = result.consejal;
-
-          if (list_fvillalba) {
-            this.estado = 1
-          }else if(list_ccristaldo){
-            this.estado = 2
-          }else if(list_padron){
-              this.estado = 3
-          }
-
-          console.log(this.estado);
-
-          switch (this.estado) {
-            case 1:
-
-                this.nombre_consejal = nombre_consejal
-               this.ci_votante        = list_fvillalba[0].CEDULA;
-                this.nombre_votante   = list_fvillalba[0].NOMBRE;
-                this.apellido_votante = list_fvillalba[0].APELLIDO;
-                this.sexo_votante     = list_fvillalba[0].SEXO;
-                this.direccion_votante = '';
-    
-                this.depar_votante     = list_fvillalba[0].DEPART;
-                this.distrito_votante  = list_fvillalba[0].DISTRITO;
-                this.local_votante     = list_fvillalba[0].LOCAL;
-                this.mesa_votante      = '';
-                this.orden_votante     = '';
-                this.voto_votante      = '1';
-                this.medioP_votante    = '0';
-                this.monto_votante     = '0';
-    
-                this.mostrarMensaje_err = false
-                this.ACTUALIZAR = false
-                this.REGISTRAR = true
+          if (!result.SD) {
+            let list_preCandid_1   = result.info_precandidato_1;
+            let list_preCandid_2   = result.info_precandidato_2;
+            let list_padron        = result.dataPadron;
+            let arr_preCandidatos = result.arrPreCandidatos;   // todos los precandidatos
+              let preCandidato = result.preCandidato;            // puede ser número o array
               
-              break;
-
-            case 2:
-
-                 this.nombre_consejal = nombre_consejal
-
-                this.ci_votante        = list_ccristaldo[0].CEDULA;
-                this.nombre_votante   = list_ccristaldo[0].NOMBRE;
-                this.apellido_votante = list_ccristaldo[0].APELLIDO;
-                this.sexo_votante     = list_ccristaldo[0].SEXO;
-                this.direccion_votante = '';
-    
-                this.depar_votante     = list_ccristaldo[0].DEPART;
-                this.distrito_votante  = list_ccristaldo[0].DISTRITO;
-                this.local_votante     = list_ccristaldo[0].LOCAL;
-                this.mesa_votante      = '';
-                this.orden_votante     = '';
-                this.voto_votante      = '1';
-                this.medioP_votante    = '0';
-                this.monto_votante     = '0';
-    
-                this.ACTUALIZAR          = false
-                this.REGISTRAR           = true
-              
-              break;
-
-            case 3:
-
-                 this.nombre_consejal = nombre_consejal
-
-                this.ci_votante        = list_padron[0].CEDULA;
-                this.nombre_votante   = list_padron[0].NOMBRE;
-                this.apellido_votante = list_padron[0].APELLIDO;
-                this.sexo_votante     = list_padron[0].SEXO;
-                this.direccion_votante = '';
-    
-                this.depar_votante     = list_padron[0].DEPART;
-                this.distrito_votante  = list_padron[0].DISTRITO;
-                this.local_votante     = list_padron[0].LOCAL;
-                this.mesa_votante      = '';
-                this.orden_votante     = '';
-                this.voto_votante      = '1';
-                this.medioP_votante    = '0';
-                this.monto_votante     = '0';
-    
-                this.ACTUALIZAR          = false
-                this.REGISTRAR           = true
-              
-              break;
-          
-            // default:
-
-            //     this.nombre_votante    = '';
-            //     this.direccion_votante = '';
-            //     this.voto_votante  = '1'
+             this.condicionPreCandidatos(arr_preCandidatos, preCandidato);
   
-            //       let msg = 'Datos no encontrado!!';
-            //       this.mensaje_error = msg;
-            //       this.mostrarMensaje_err = true
-            //    //  this.clearCamposCliente();
-            //      this.ACTUALIZAR = false
-            //     this.REGISTRAR = true
-            //      window.scroll(0,0);
-            //   break;
+            // this.mensaje           = result.info;
+            // this.mostrarMensaje_true = true;
+  
+            if (list_preCandid_1) {
+              this.estado = 1
+            }else if(list_preCandid_2){
+              this.estado = 2
+            }else if(list_padron){
+                this.estado = 3
+            }
+  
+            switch (this.estado) {
+              case 1:
+
+                  this.ci_votante        = list_preCandid_1[0].CEDULA;
+                  this.nombre_votante   = list_preCandid_1[0].NOMBRE;
+                  this.apellido_votante = list_preCandid_1[0].APELLIDO;
+                  this.sexo_votante     = list_preCandid_1[0].SEXO;
+                  this.direccion_votante = '';
+      
+                  this.depar_votante     = list_preCandid_1[0].DEPART;
+                  this.distrito_votante  = list_preCandid_1[0].DISTRITO;
+                  this.local_votante     = list_preCandid_1[0].LOCAL;
+                  this.mesa_votante      = '';
+                  this.orden_votante     = '';
+                  this.voto_votante      = '1';
+                  this.medioP_votante    = '0';
+                  this.monto_votante     = '0';
+      
+                  this.mostrarMensaje_err = false
+                  this.ACTUALIZAR = false
+                  this.REGISTRAR = true
+                
+                break;
+  
+              case 2:
+  
+                  this.ci_votante        = list_preCandid_2[0].CEDULA;
+                  this.nombre_votante   = list_preCandid_2[0].NOMBRE;
+                  this.apellido_votante = list_preCandid_2[0].APELLIDO;
+                  this.sexo_votante     = list_preCandid_2[0].SEXO;
+                  this.direccion_votante = '';
+      
+                  this.depar_votante     = list_preCandid_2[0].DEPART;
+                  this.distrito_votante  = list_preCandid_2[0].DISTRITO;
+                  this.local_votante     = list_preCandid_2[0].LOCAL;
+                  this.mesa_votante      = '';
+                  this.orden_votante     = '';
+                  this.voto_votante      = '1';
+                  this.medioP_votante    = '0';
+                  this.monto_votante     = '0';
+      
+                  this.ACTUALIZAR          = false
+                  this.REGISTRAR           = true
+                
+                break;
+  
+              case 3:
+  
+                  this.ci_votante        = list_padron[0].CEDULA;
+                  this.nombre_votante   = list_padron[0].NOMBRE;
+                  this.apellido_votante = list_padron[0].APELLIDO;
+                  this.sexo_votante     = list_padron[0].SEXO;
+                  this.direccion_votante = '';
+      
+                  this.depar_votante     = list_padron[0].DEPART;
+                  this.distrito_votante  = list_padron[0].DISTRITO;
+                  this.local_votante     = list_padron[0].LOCAL;
+                  this.mesa_votante      = '';
+                  this.orden_votante     = '';
+                  this.voto_votante      = '1';
+                  this.medioP_votante    = '0';
+                  this.monto_votante     = '0';
+      
+                  this.ACTUALIZAR          = false
+                  this.REGISTRAR           = true
+                
+                break;
+            
+              // default:
+  
+              //     this.nombre_votante    = '';
+              //     this.direccion_votante = '';
+              //     this.voto_votante  = '1'
+    
+              //       let msg = 'Datos no encontrado!!';
+              //       this.mensaje_error = msg;
+              //       this.mostrarMensaje_err = true
+              //    //  this.clearCamposCliente();
+              //      this.ACTUALIZAR = false
+              //     this.REGISTRAR = true
+              //      window.scroll(0,0);
+              //   break;
+            }
+  
+            this.mostrarMensaje_err = false;
+            
+          }else{
+            this.selecPreCandidatos = []
+            let msg = 'No existe datos en la Base de Datos!!';
+              this.mensaje_error = msg;
+              this.mostrarMensaje_err = true
+               this.clearCamposCliente();
+                    window.scroll(0, 0);
           }
+
+          
 
       });
     }else{
@@ -429,6 +492,33 @@ export class RegistrarControlComponent implements OnInit {
           (document.querySelector("#overlay") as HTMLElement).hidden = true;
         }, 1000);
   }
+
+   condicionPreCandidatos(arr_preCandidatos: any, preCandidato: any) {
+
+       // Normalizamos: si es número, lo convertimos en array
+            if (!Array.isArray(preCandidato)) {
+              preCandidato = [preCandidato];
+            }
+            
+            if (arr_preCandidatos && arr_preCandidatos.length > 0) {
+              // Caso especial: si solo viene el valor 3
+              if (preCandidato.length === 1 && preCandidato[0] === 3) {
+                this.arrayPreCandidatos = arr_preCandidatos.filter((item: any) => item.cod_preCandidato === 3);
+                this.selecPreCandidatos = [3];
+              } else {
+                // Filtramos los precandidatos que estén en el array preCandidato y que NO sean 3
+                this.arrayPreCandidatos = arr_preCandidatos.filter((item: any) =>
+                  preCandidato.includes(item.cod_preCandidato) && item.cod_preCandidato !== 3
+                );
+                this.selecPreCandidatos = this.arrayPreCandidatos.map((item: any) => item.cod_preCandidato);
+              }
+            } else {
+              console.log("==No hay registros PreCandidatos==");
+              this.selecPreCandidatos = [3]; // fallback a INTENDENCIA
+            }
+
+    }
+
 
   insVotante() {
 
@@ -448,11 +538,14 @@ export class RegistrarControlComponent implements OnInit {
     let medioP_votante    = this.medioP_votante;
     let monto_votante     = this.monto_votante.replace(/\./g, '');
     let cod_consejal      = this.cod_consejal.nativeElement.value;
+
+      // this.preCandidatos = this.separadorRiesgos();
+      let cod_pre_candidatos = this.preCandidatos
   
     let dataSend = {ci_votante, nombre_votante, apellido_votante, 
                     sexo_votante, direccion_votante, depar_votante,
                     distrito_votante, local_votante, mesa_votante,
-                    orden_votante, voto_votante, medioP_votante, monto_votante, cod_consejal
+                    orden_votante, voto_votante, medioP_votante, monto_votante, cod_pre_candidatos
                   };
 
     console.log(dataSend);
