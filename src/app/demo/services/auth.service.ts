@@ -17,11 +17,11 @@ export class AuthService {
 
             
         login(email: string, password: string): Observable<any> {
-          return this.http.post(`${this.apiUrl}/auth/signin`, { email, password });
+          return this.http.post(`${this.apiUrl}/signin`, { email, password });
         }
         
         login2(email: string, password: string): Observable<any> {
-          return this.http.post(`${this.apiUrl}/auth/login2`, { email, password });
+          return this.http.post(`${this.apiUrl}/login2`, { email, password });
         }
         
         // login(email: string, password: string): Observable<any> {
