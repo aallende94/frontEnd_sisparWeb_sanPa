@@ -9,6 +9,7 @@ import { environment } from '../../../environments/environment';
   providedIn: 'root'
 })
 export class AuthService {
+   private apiUrl = environment.apiUrl;
 
   constructor(private http: HttpClient, 
             //  private config: ConfigService
@@ -16,14 +17,12 @@ export class AuthService {
 
             
         login(email: string, password: string): Observable<any> {
-          return this.http.post(`${environment.apiUrl}/auth/signin`, { email, password });
+          return this.http.post(`${this.apiUrl}/auth/signin`, { email, password });
         }
         
         login2(email: string, password: string): Observable<any> {
-          return this.http.post(`${environment.apiUrl}/auth/login2`, { email, password });
+          return this.http.post(`${this.apiUrl}/auth/login2`, { email, password });
         }
-        
-        
         
         // login(email: string, password: string): Observable<any> {
         //   return this.http.post( this.config.url+"login", { email, password });
@@ -34,3 +33,6 @@ export class AuthService {
         // }
 
 }
+
+
+
