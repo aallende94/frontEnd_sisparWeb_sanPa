@@ -2,7 +2,6 @@ import { Component, Input, OnChanges, OnInit, ViewChild, ElementRef, TemplateRef
 import { FormGroup, FormBuilder } from '@angular/forms'
 //import { HttpClientModule } from "@angular/common/http";
 import { HttpClient, HttpHeaders } from '@angular/common/http';
-//import { ConfigService } from '../../../helpers/config.service';
 //import { TokenService } from '../../../services/token.service';
 import { CommonModule } from '@angular/common';
 import 'datatables.net';

@@ -28,8 +28,10 @@ npm install -g angular-cli-ghpages
 ## Configura tu proyecto Angular para producción:
 
 ## bash
-ng build --configuration production --base-href "https://TU_USUARIO.github.io/TU_REPOSITORIO/"
+## ng build --configuration production --base-href "https://TU_USUARIO.github.io/TU_REPOSITORIO/"
+ng build --configuration production --base-href "https://aallende94.github.io/frontEnd_sisparWeb_sanPa/"
 ## Reemplaza TU_USUARIO por tu usuario de GitHub.
+ng build --configuration production --base-href "https://aallende94.github.io/frontEnd_sisparWeb_sanPa/"
 
 ## Reemplaza TU_REPOSITORIO por el nombre del repositorio donde está tu proyecto.
 
@@ -38,6 +40,7 @@ ng build --configuration production --base-href "https://TU_USUARIO.github.io/TU
 ## bash
 npx angular-cli-ghpages --dir=dist/TU_PROYECTO
 ## dist/TU_PROYECTO es la carpeta que se genera al hacer el build.
+npx angular-cli-ghpages --dir=dist/frontEnd_sisparWeb_sanPa
 
 ## Verifica la URL pública
 
